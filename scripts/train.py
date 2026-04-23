@@ -178,8 +178,6 @@ def main():
         save_total_limit=3,
         eval_strategy="steps",
         eval_steps=SAVE_STEPS,
-        max_seq_length=MAX_SEQ_LEN,
-        packing=True,
         gradient_checkpointing=True,
         gradient_checkpointing_kwargs={"use_reentrant": False},
         dataset_text_field="text",
@@ -194,6 +192,8 @@ def main():
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
         processing_class=tokenizer,
+        max_seq_length=MAX_SEQ_LEN,
+        packing=True,
     )
 
     # === Train ===
