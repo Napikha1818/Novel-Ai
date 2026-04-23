@@ -48,12 +48,21 @@ LOGGING_STEPS = 10
 
 
 def load_dataset_from_jsonl(path):
-    """Load dataset dari format sharegpt JSONL."""
+    """Load dataset dari JSONL. Support format sharegpt dan instruction."""
     conversations = []
     with open(path, "r", encoding="utf-8") as f:
         for line in f:
             data = json.loads(line)
-            conversations.append(data["conversations"])
+            if "conversations" in data:
+                conversations.append(data["conversations"])
+            else:
+                # Format instruction: convert ke conversations
+                conv = [
+                    {"from": "system", "value": data.get("system", "")},
+                    {"from": "human", "value": data["instruction"]},
+                    {"from": "gpt", "value": data["output"]},
+                ]
+                conversations.append(conv)
     return Dataset.from_dict({"conversations": conversations})
 
 
