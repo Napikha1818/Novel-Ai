@@ -1,0 +1,73 @@
+# =============================================================
+# Axolotl Config — Qwen2.5-7B (BASE) QLoRA Fine-tuning
+# Gaya penulisan Eka Kurniawan — TANPA SENSOR
+# GPU: 1x NVIDIA L4 (24GB VRAM)
+#
+# PENTING: Menggunakan base model (bukan Instruct) agar tidak
+# ada safety alignment yang memblokir konten eksplisit.
+# =============================================================
+
+base_model: Qwen/Qwen2.5-7B
+model_type: AutoModelForCausalLM
+tokenizer_type: AutoTokenizer
+trust_remote_code: true
+
+# Chat template — perlu didefinisikan karena base model tidak punya
+chat_template: chatml
+
+# Dataset
+datasets:
+  - path: data/dataset/train_axolotl.jsonl
+    type: sharegpt
+    conversation: chatml
+
+dataset_prepared_path: data/dataset/prepared
+
+# Evaluasi
+val_set_size: 0.05
+
+# Sequence length — 8192 cukup untuk bab novel
+sequence_len: 8192
+sample_packing: true
+pad_to_sequence_len: true
+
+# QLoRA 4-bit — rank tinggi untuk menangkap gaya sastra + konten eksplisit
+adapter: qlora
+lora_r: 128
+lora_alpha: 256
+lora_dropout: 0.05
+lora_target_linear: true
+
+# Quantization
+load_in_4bit: true
+bnb_4bit_compute_dtype: bfloat16
+bnb_4bit_use_double_quant: true
+bnb_4bit_quant_type: nf4
+
+# Training hyperparameters — 4 epoch untuk dataset kecil tapi kaya
+output_dir: ./output/eka-qwen2.5-7b-qlora
+num_epochs: 4
+micro_batch_size: 1
+gradient_accumulation_steps: 8
+learning_rate: 1.5e-4
+lr_scheduler: cosine
+warmup_ratio: 0.1
+optimizer: adamw_bnb_8bit
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Mixed precision
+bf16: auto
+tf32: true
+
+# Logging
+logging_steps: 10
+save_strategy: steps
+save_steps: 100
+save_total_limit: 3
+eval_steps: 100
+
+# Misc
+gradient_checkpointing: true
+flash_attention: true
+seed: 42

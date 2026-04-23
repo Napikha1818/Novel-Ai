@@ -1,0 +1,24 @@
+# Text extraction
+ebooklib==0.18
+beautifulsoup4==4.12.3
+PyMuPDF==1.24.3
+html2text==2024.2.26
+
+# Dataset building
+datasets==2.19.1
+tiktoken==0.7.0
+transformers==4.44.2
+
+# Fine-tuning
+torch==2.3.1
+peft==0.11.1
+trl==0.9.6
+bitsandbytes==0.43.1
+accelerate==0.31.0
+scipy==1.13.1
+
+# Training framework
+axolotl==0.4.1
+
+# Utilities
+tqdm==4.66.4
