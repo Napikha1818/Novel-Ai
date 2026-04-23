@@ -82,6 +82,9 @@ def format_conversation(example, tokenizer):
     text = tokenizer.apply_chat_template(
         messages, tokenize=False, add_generation_prompt=False
     )
+    # Truncate to max tokens
+    tokens = tokenizer.encode(text, truncation=True, max_length=MAX_SEQ_LEN)
+    text = tokenizer.decode(tokens, skip_special_tokens=False)
     return {"text": text}
 
 
@@ -192,8 +195,6 @@ def main():
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
         processing_class=tokenizer,
-        max_seq_length=MAX_SEQ_LEN,
-        packing=True,
     )
 
     # === Train ===
