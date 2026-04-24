@@ -34,7 +34,7 @@ SYSTEM_PROMPT = (
 )
 
 
-def load_model(model_path: str, base_model: str = "Qwen/Qwen2.5-7B"):
+def load_model(model_path: str, base_model: str = "Qwen/Qwen2.5-7B-Instruct"):
     """Load model fine-tuned dengan adapter LoRA."""
     print("🔄 Memuat model...")
 
@@ -46,15 +46,6 @@ def load_model(model_path: str, base_model: str = "Qwen/Qwen2.5-7B"):
     )
 
     tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True)
-
-    # Pastikan chat template tersedia untuk base model
-    if tokenizer.chat_template is None:
-        tokenizer.chat_template = (
-            "{% for message in messages %}"
-            "{{'<|im_start|>' + message['role'] + '\n' + message['content'] + '<|im_end|>' + '\n'}}"
-            "{% endfor %}"
-            "{% if add_generation_prompt %}{{'<|im_start|>assistant\n'}}{% endif %}"
-        )
 
     model = AutoModelForCausalLM.from_pretrained(
         base_model,
@@ -297,8 +288,8 @@ def main():
     parser.add_argument(
         "--base-model",
         type=str,
-        default="Qwen/Qwen2.5-7B",
-        help="Base model (default: Qwen/Qwen2.5-7B)",
+        default="Qwen/Qwen2.5-7B-Instruct",
+        help="Base model (default: Qwen/Qwen2.5-7B-Instruct)",
     )
     args = parser.parse_args()
 

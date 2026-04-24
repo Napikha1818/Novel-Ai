@@ -26,10 +26,10 @@ from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training
 from trl import SFTTrainer, SFTConfig
 
 # === CONFIG ===
-BASE_MODEL = "Qwen/Qwen2.5-7B"
+BASE_MODEL = "Qwen/Qwen2.5-7B-Instruct"
 DATASET_PATH = "data/dataset/train_axolotl.jsonl"
 EVAL_PATH = "data/dataset/eval.jsonl"
-OUTPUT_DIR = "output/eka-qwen2.5-7b-qlora"
+OUTPUT_DIR = "output/eka-qwen2.5-7b-instruct-qlora"
 
 # QLoRA
 LORA_R = 128
@@ -37,10 +37,10 @@ LORA_ALPHA = 256
 LORA_DROPOUT = 0.05
 
 # Training
-NUM_EPOCHS = 4
+NUM_EPOCHS = 3
 BATCH_SIZE = 1
 GRAD_ACCUM = 8
-LEARNING_RATE = 1.5e-4
+LEARNING_RATE = 2e-4
 MAX_SEQ_LEN = 8192
 WARMUP_RATIO = 0.1
 SAVE_STEPS = 100
