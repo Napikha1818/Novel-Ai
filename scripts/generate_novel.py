@@ -76,7 +76,7 @@ def generate(
     tokenizer,
     instruction: str,
     context: str = "",
-    max_new_tokens: int = 4096,
+    max_new_tokens: int = 1024,
     temperature: float = 0.9,
     top_p: float = 0.92,
     top_k: int = 50,
